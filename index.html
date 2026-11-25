@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YoRHa // BLACK BOX TERMINAL</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- PANTALLA DE ARRANQUE (BOOT SEQUENCE) -->
+    <div id="boot-screen" class="boot-overlay">
+        <div class="boot-box">
+            <div class="boot-diamond">◆</div>
+            <p id="boot-log">INICIALIZANDO SISTEMA YORHA OS v14.8...</p>
+            <div class="boot-bar"><div class="boot-progress" id="boot-progress"></div></div>
+        </div>
+    </div>
+
+    <!-- VIDEO DE FONDO -->
+    <div class="video-container">
+        <video id="bg-video" autoplay loop muted playsinline>
+            <source src=".vscode\video\WhatsApp Video 2026-11-25 at 7.34.03 AM.mp4" type="video/mp4">
+        </video>
+        <div class="vignette"></div>
+        <div class="scanlines"></div>
+        <div class="video-overlay" id="video-dimmer"></div>
+    </div>
+
+    <!-- HEADER TÁCTICO OSCURO -->
+    <header class="yorha-header">
+        <div class="logo-area">
+            <span class="yorha-diamond">◆</span>
+            <div>
+                <h1>YoRHa <span class="gold-tag">BLACK BOX</span></h1>
+                <small>BUNKER ORBITAL COMMAND // SECTOR 09</small>
+            </div>
+        </div>
+
+        <!-- NAVEGACIÓN DE 4 PANTALLAS -->
+        <nav class="yorha-nav">
+            <button class="nav-btn active" data-target="screen-inicio">01. TERMINAL</button>
+            <button class="nav-btn" data-target="screen-unidades">02. ANDROIDES</button>
+            <button class="nav-btn" data-target="screen-misiones">03. DIRECTIVAS</button>
+            <button class="nav-btn danger-nav" data-target="screen-hack">04. BLACK BOX</button>
+        </nav>
+
+        <!-- CONTROLES DEL VIDEO DE FONDO -->
+        <div class="video-controls">
+            <label for="upload-video" class="btn-mini" title="Subir video MP4/WebM">📁 Video</label>
+            <input type="file" id="upload-video" accept="video/mp4,video/webm" hidden>
+            <button id="toggle-video" class="btn-mini">⏸</button>
+            <button id="mute-video" class="btn-mini">🔇</button>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="terminal-container">
+
+        <!-- PANTALLA 1: TERMINAL PRINCIPAL -->
+        <section id="screen-inicio" class="screen active">
+            <div class="panel hero-panel">
+                <div class="panel-header">
+                    <span>[POD 042 // ENLACE NEURONAL ACTIVO]</span>
+                    <span id="clock">00:00:00</span>
+                </div>
+                <div class="hero-content">
+                    <div class="badge-top">PROTOCOLO DE COMBATE NOCTURNO</div>
+                    <h2 class="glitch-title" data-text="GLORIA A LA HUMANIDAD">GLORIA A LA HUMANIDAD</h2>
+                    <p class="typing-text" id="typing-output"></p>
+
+                    <div class="status-grid">
+                        <div class="stat-box">
+                            <span class="label">NÚCLEO DEL BÚNKER</span>
+                            <span class="value gold">SINCRONIZADO 99.8%</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">VIRUS LÓGICO</span>
+                            <span class="value danger">AMENAZA CRÍTICA</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">SERVIDOR LUNAR</span>
+                            <span class="value">EN LÍNEA // ENCRIPTADO</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions">
+                        <button class="yorha-action-btn" onclick="switchScreen('screen-unidades')">
+                            ▶ DESPLEGAR UNIDADES YORHA
+                        </button>
+                        <button class="yorha-action-btn outline" onclick="switchScreen('screen-hack')">
+                            ⚠ INICIAR HACKEO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 2: UNIDADES YORHA -->
+        <section id="screen-unidades" class="screen">
+            <div class="panel">
+                <div class="panel-header">
+                    <span>[ARCHIVO CLASIFICADO: MODELOS DE COMBATE]</span>
+                    <span>ACCESO NIVEL S</span>
+                </div>
+                <div class="units-layout">
+                    <div class="unit-selector">
+                        <button class="unit-card active" data-unit="2b">
+                            <span class="unit-num">NO.02</span>
+                            <div>
+                                <span class="unit-code">YoRHa No.2 Type B</span>
+                                <span class="unit-role">Infantería de Asalto</span>
+                            </div>
+                        </button>
+                        <button class="unit-card" data-unit="9s">
+                            <span class="unit-num">NO.09</span>
+                            <div>
+                                <span class="unit-code">YoRHa No.9 Type S</span>
+                                <span class="unit-role">Reconocimiento / Hackeo</span>
+                            </div>
+                        </button>
+                        <button class="unit-card" data-unit="a2">
+                            <span class="unit-num">TYPE-A</span>
+                            <div>
+                                <span class="unit-code">YoRHa Type A No.2</span>
+                                <span class="unit-role">Prototipo Berserker</span>
+                            </div>
+                        </button>
+                        <button class="unit-card" data-unit="commander">
+                            <span class="unit-num">CMD</span>
+                            <div>
+                                <span class="unit-code">Comandante White</span>
+                                <span class="unit-role">Directora del Búnker</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="unit-details" id="unit-display">
+                        <div class="unit-top-meta">
+                            <span class="u-tag" id="u-class">CLASE: COMBATE DE INFANTERÍA</span>
+                            <span class="u-weapon" id="u-weapon">ARMA: VIRTUOUS CONTRACT</span>
+                        </div>
+                        <h3 id="u-name">YoRHa No.2 Type B (2B)</h3>
+                        <p class="u-desc" id="u-desc">
+                            Androide de combate multipropósito desplegado en la 14.ª Guerra de las Máquinas. Diseñada para el combate cuerpo a cuerpo de alta precisión y ejecución silenciosa.
+                        </p>
+                        <div class="bars">
+                            <div class="bar-item">
+                                <div class="bar-label"><span>ATAQUE FÍSICO</span><span id="val-atk">92%</span></div>
+                                <div class="bar-bg"><div class="bar-fill" id="bar-atk" style="width: 92%;"></div></div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label"><span>CAPACIDAD DE HACKEO</span><span id="val-hack">45%</span></div>
+                                <div class="bar-bg"><div class="bar-fill" id="bar-hack" style="width: 45%;"></div></div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar-label"><span>VELOCIDAD DE REACCIÓN</span><span id="val-spd">88%</span></div>
+                                <div class="bar-bg"><div class="bar-fill" id="bar-spd" style="width: 88%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: DIRECTIVAS / MISIONES -->
+        <section id="screen-misiones" class="screen">
+            <div class="panel">
+                <div class="panel-header">
+                    <span>[BITÁCORA DE OPERACIONES EN SUPERFICIE]</span>
+                    <span>REGISTRO EN VIVO</span>
+                </div>
+
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all">TODAS</button>
+                    <button class="filter-btn" data-filter="activa">ACTIVAS</button>
+                    <button class="filter-btn" data-filter="completada">COMPLETADAS</button>
+                </div>
+
+                <div class="missions-list" id="missions-container">
+                    <div class="mission-item" data-status="activa">
+                        <div>
+                            <h4>[01] EXTERMINIO EN RUINAS DE LA CIUDAD</h4>
+                            <p>Neutralizar unidades Goliat detectadas en el perímetro sur.</p>
+                        </div>
+                        <button class="badge active toggle-status" title="Clic para cambiar estado">ACTIVA</button>
+                    </div>
+                    <div class="mission-item" data-status="completada">
+                        <div>
+                            <h4>[02] EXTRACCIÓN DE NÚCLEO DE MÁQUINA</h4>
+                            <p>Recuperar datos encriptados en la zona desértica.</p>
+                        </div>
+                        <button class="badge done toggle-status" title="Clic para cambiar estado">COMPLETADA</button>
+                    </div>
+                    <div class="mission-item" data-status="activa">
+                        <div>
+                            <h4>[03] PURGA DE SERVIDORES DE RED</h4>
+                            <p>Eliminar rastros del virus lógico en la red orbital.</p>
+                        </div>
+                        <button class="badge active toggle-status" title="Clic para cambiar estado">ACTIVA</button>
+                    </div>
+                </div>
+
+                <form id="add-mission-form" class="mission-form">
+                    <input type="text" id="mission-title" placeholder="Código o nombre de directiva..." required>
+                    <input type="text" id="mission-desc" placeholder="Detalles tácticos..." required>
+                    <button type="submit" class="yorha-action-btn">+ AÑADIR</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- PANTALLA 4: BLACK BOX / SIMULADOR DE HACKEO -->
+        <section id="screen-hack" class="screen">
+            <div class="panel danger-panel">
+                <div class="panel-header danger-header">
+                    <span>[ALERTA // SISTEMA DE CAJA NEGRA YORHA]</span>
+                    <span>NIVEL DE CORRUPCIÓN</span>
+                </div>
+                <div class="hack-container">
+                    <div class="hack-info">
+                        <h3>DIAGNÓSTICO DE CAJA NEGRA</h3>
+                        <p>Las Cajas Negras de las unidades YoRHa están construidas a partir de núcleos de máquinas. Sobrecargar dos cajas negras provoca una detonación de energía masiva.</p>
+                        
+                        <div class="corruption-meter">
+                            <div class="bar-label">
+                                <span>CORRUPCIÓN DE MEMORIA</span>
+                                <span id="corruption-percent">15%</span>
+                            </div>
+                            <div class="bar-bg">
+                                <div class="bar-fill danger-fill" id="corruption-bar" style="width: 15%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="hack-buttons">
+                            <button id="btn-hack-pulse" class="yorha-action-btn">⚡ INYECTAR PULSO DE DATOS</button>
+                            <button id="btn-purify" class="yorha-action-btn outline">🛡 PURGAR SISTEMA</button>
+                        </div>
+                    </div>
+
+                    <div class="terminal-console" id="hack-console">
+                        <p>> Sistema Black Box en espera...</p>
+                        <p>> Integridad estructural: ÓPTIMA.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="yorha-footer">
+        <span>YoRHa TACTICAL OS // DARK EDITION</span>
+        <span>FOR THE GLORY OF MANKIND</span>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
